@@ -28,7 +28,7 @@ pub struct Activity<'a> {
     secrets: Option<Secrets<'a>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    buttons: Option<Vec<Button<'a>>>,
+    buttons: Option<Vec<Button>>,
 
     #[serde(skip_serializing_if = "Option::is_none", rename = "type")]
     activity_type: Option<ActivityType>,
@@ -102,9 +102,9 @@ pub struct Secrets<'a> {
 ///
 /// An activity may have a maximum of 2 buttons
 #[derive(Serialize, Clone)]
-pub struct Button<'a> {
-    label: &'a str,
-    url: &'a str,
+pub struct Button {
+    label: String,
+    url: String,
 }
 
 /// A struct to set the Activity Type of the `Activity`
@@ -175,7 +175,7 @@ impl<'a> Activity<'a> {
     /// Add a `Vec` of `Button`s to this activity
     ///
     /// An activity may contain no more than 2 buttons
-    pub fn buttons(mut self, buttons: Vec<Button<'a>>) -> Self {
+    pub fn buttons(mut self, buttons: Vec<Button>) -> Self {
         // API call fails if the array is empty, so we skip serialization
         // entirely if this is the case
         if buttons.is_empty() {
@@ -349,14 +349,14 @@ impl<'a> Default for Secrets<'a> {
     }
 }
 
-impl<'a> Button<'a> {
+impl<'a> Button {
     /// Creates a new `Button` with the given label and
     /// URL
     ///
     /// The label must be 1-32 characters long
     ///
     /// The URL must be 1-512 characters long
-    pub fn new(label: &'a str, url: &'a str) -> Self {
+    pub fn new(label: String, url: String) -> Self {
         Button { label, url }
     }
 }
