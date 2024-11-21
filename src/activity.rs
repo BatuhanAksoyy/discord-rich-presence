@@ -1,6 +1,6 @@
 //! Provides an interface for building activities to send
 //! to Discord via [`DiscordIpc::set_activity`](crate::DiscordIpc::set_activity).
-use serde_derive::Serialize;
+use serde_derive::{Deserialize, Serialize};
 use serde_repr::Serialize_repr;
 
 /// A struct representing a Discord rich presence activity
@@ -101,7 +101,7 @@ pub struct Secrets<'a> {
 /// attached to an `Activity`
 ///
 /// An activity may have a maximum of 2 buttons
-#[derive(Serialize, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Button {
     label: String,
     url: String,
