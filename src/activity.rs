@@ -10,10 +10,10 @@ use serde_repr::Serialize_repr;
 #[derive(Serialize, Clone)]
 pub struct Activity<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
-    state: Option<&'a str>,
+    state: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    details: Option<&'a str>,
+    details: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     timestamps: Option<Timestamps>,
@@ -22,7 +22,7 @@ pub struct Activity<'a> {
     party: Option<Party<'a>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    assets: Option<Assets<'a>>,
+    assets: Option<Assets>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     secrets: Option<Secrets<'a>>,
@@ -66,18 +66,18 @@ pub struct Party<'a> {
 /// Note that all methods return `Self`, and can be chained
 /// for fluency
 #[derive(Serialize, Clone)]
-pub struct Assets<'a> {
+pub struct Assets {
     #[serde(skip_serializing_if = "Option::is_none")]
-    large_image: Option<&'a str>,
+    large_image: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    large_text: Option<&'a str>,
+    large_text: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    small_image: Option<&'a str>,
+    small_image: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    small_text: Option<&'a str>,
+    small_text: Option<String>,
 }
 
 /// A struct representing the secrets used by an
@@ -137,13 +137,13 @@ impl<'a> Activity<'a> {
     }
 
     /// Sets the state of the activity
-    pub fn state(mut self, state: &'a str) -> Self {
+    pub fn state(mut self, state: String) -> Self {
         self.state = Some(state);
         self
     }
 
     /// Sets the details of the activity
-    pub fn details(mut self, details: &'a str) -> Self {
+    pub fn details(mut self, details: String) -> Self {
         self.details = Some(details);
         self
     }
@@ -161,7 +161,7 @@ impl<'a> Activity<'a> {
     }
 
     /// Add an `Assets` to this activity
-    pub fn assets(mut self, assets: Assets<'a>) -> Self {
+    pub fn assets(mut self, assets: Assets) -> Self {
         self.assets = Some(assets);
         self
     }
@@ -262,7 +262,7 @@ impl<'a> Default for Party<'a> {
     }
 }
 
-impl<'a> Assets<'a> {
+impl Assets {
     /// Creates a new `Assets`
     pub fn new() -> Self {
         Assets {
@@ -278,14 +278,14 @@ impl<'a> Assets<'a> {
     ///
     /// Alternatively, the URL of the resource to be used as
     /// the large image
-    pub fn large_image(mut self, large_image: &'a str) -> Self {
+    pub fn large_image(mut self, large_image: String) -> Self {
         self.large_image = Some(large_image);
         self
     }
 
     /// Sets the text to be shown when hovering over the large
     /// image
-    pub fn large_text(mut self, large_text: &'a str) -> Self {
+    pub fn large_text(mut self, large_text: String) -> Self {
         self.large_text = Some(large_text);
         self
     }
@@ -295,20 +295,20 @@ impl<'a> Assets<'a> {
     ///
     /// Alternatively, the URL of the resource to be used as
     /// the small image
-    pub fn small_image(mut self, small_image: &'a str) -> Self {
+    pub fn small_image(mut self, small_image: String) -> Self {
         self.small_image = Some(small_image);
         self
     }
 
     /// Sets the text that is shown when hovering over the small
     /// image
-    pub fn small_text(mut self, small_text: &'a str) -> Self {
+    pub fn small_text(mut self, small_text: String) -> Self {
         self.small_text = Some(small_text);
         self
     }
 }
 
-impl<'a> Default for Assets<'a> {
+impl Default for Assets {
     fn default() -> Self {
         Self::new()
     }
